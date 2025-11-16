@@ -1,0 +1,5 @@
+ipykernel # IPython Kernel for Jupyter (minimum requirement for running Jupyter notebooks)
+pandas
+pip-audit
+psycopg
+sqlalchemy

@@ -1,2 +1,5 @@
 # ubuntu-data-workstation
-Bash scripts for setting up and maintaining a Ubuntu workstation for data projects.
+
+sudo apt install git
+
+git clone https://github.com/pydatk/ubuntu-data-workstation.git
