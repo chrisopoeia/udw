@@ -1,2 +1,5 @@
 # custom
 .vscode/
+quarto/_site/
+*.ini
+*.cfg

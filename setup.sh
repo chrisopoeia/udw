@@ -2,6 +2,8 @@
 
 set -e
 
+echo -e "\nubuntu-data-workstation - Setup\n"
+
 echo "Please close any open programs then press any key to continue..."
 read -n 1 -s
 

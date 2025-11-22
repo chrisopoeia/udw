@@ -2,6 +2,8 @@
 
 set -e
 
+echo -e "\nubuntu-data-workstation - Backup\n"
+
 # get current timestamp
 now=$(date +"%Y%m%d-%H%M")
 
