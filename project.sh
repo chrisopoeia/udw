@@ -19,16 +19,30 @@ read -p "Repo branch [default: dev]: " repo_branch
 if [ "$repo_branch" == "" ]; then
     repo_branch="dev"
 fi
+
 echo ""
-echo "! Only use underscores and alphanumeric characters for database and venv names !"
-echo ""
-read -p "Database name [default: $project_name]: " db_name
-if [ "$db_name" == "" ]; then
-    db_name=$project_name
+read -p "Create PostgreSQL database [y,n]? " confirm_pg
+if [ "$confirm_pg" == "y" ] || [ "$confirm_pg" == "Y" ]; then
+    echo ""
+    echo "! Only use underscores and alphanumeric characters for database and venv names !"
+    echo ""
+    read -p "Database name [default: $project_name]: " db_name
+    if [ "$db_name" == "" ]; then
+        db_name=$project_name
+    fi
+else
+    db_name=""
 fi
-read -p "Virtual Environment name [default: $db_name]: " venv_name
-if [ "$venv_name" == "" ]; then
-    venv_name=$db_name
+
+echo ""
+read -p "Create virtual environment [y,n]? " confirm_venv
+if [ "$confirm_venv" == "y" ] || [ "$confirm_venv" == "Y" ]; then
+    read -p "Virtual Environment name [default: $db_name]: " venv_name
+    if [ "$venv_name" == "" ]; then
+        venv_name=$db_name
+    fi
+else
+    venv_name=""
 fi
 
 echo -e "\nParameters"
@@ -54,10 +68,18 @@ mkdir $HOME/projects/$project_name/config
 
 git clone -b "$repo_branch" https://github.com/$git_user/$repo_name.git $HOME/projects/$project_name/$repo_name
 
-bash venv.sh $venv_name
+if [ "$confirm_venv" == "y" ] || [ "$confirm_venv" == "Y" ]; then
+    bash venv.sh $venv_name
+    venv_dir="$HOME/venvs"
+    venv_fn="$venv_dir"/"$venv_name"
+    venv_py="$venv_fn/bin/python"
+else
+    venv_py=""
+fi
 
+echo ""
 read -p "Modify .gitignore [y,n]? " confirm
-    if [ "$confirm" == "y" ] || [ "$confirm" == "Y" ]; then
+if [ "$confirm" == "y" ] || [ "$confirm" == "Y" ]; then
     echo "# custom" > /tmp/.gitignore
     echo ".vscode/" >> /tmp/.gitignore
     echo "quarto/_site/" >> /tmp/.gitignore
@@ -81,10 +103,6 @@ mkdir $HOME/projects/$project_name/$repo_name/.vscode
 
 code_settings="$HOME/projects/$project_name/$repo_name/.vscode/settings.json"
 
-venv_dir="$HOME/venvs"
-venv_fn="$venv_dir"/"$venv_name"
-venv_py="$venv_fn/bin/python"
-
 echo "{" >> $code_settings
 echo "    \"python.defaultInterpreterPath\": \"$venv_py\"," >> $code_settings
 echo "    \"python-envs.pythonProjects\": [" >> $code_settings
@@ -97,6 +115,9 @@ echo "    ]," >> $code_settings
 echo "    \"editor.rulers\": [79]" >> $code_settings
 echo "}" >> $code_settings
 
-bash postgres.sh $db_name
+if [ "$confirm_pg" == "y" ] || [ "$confirm_pg" == "Y" ]; then
+    bash postgres.sh $db_name
+fi
 
+echo ""
 echo -e "Finished setting up project: $project_name \n"

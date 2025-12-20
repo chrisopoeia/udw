@@ -8,7 +8,7 @@ set -e
 # the commandline.
 # https://manpages.ubuntu.com/manpages/noble/man1/dconf-editor.1.html
 
-# The workstation dconf-diff tool can identify updated dconf keys/values after 
+# The dconf-diff tool can identify updated dconf keys/values after 
 # making changes to Ubuntu settings. The search function in dconf Editor can be
 # used to find the modified keys. Changes can then be coded in an update script. 
 
