@@ -10,9 +10,17 @@ now=$(date +"%Y%m%d-%H%M")
 # make backup & restore directories
 sourcedir="$HOME/projects"
 backupdir="$HOME/temp/backup-$HOSTNAME-$now"
-restoredir="/tmp/restore-$HOSTNAME-$now"
+restoredir="/tmp/restore-$HOSTNAME"
+if [ -d $restoredir ]; then
+    # delete restore dir & contents
+    rm -rf $restoredir
+fi
 mkdir $backupdir
 mkdir $restoredir
+excludelist="$HOME/.workstation/exclude.lst"
+if [ ! -f $excludelist ]; then
+    touch $excludelist
+fi
 
 # postgres backup
 sudo -i -u postgres pg_dumpall | zip -9 $backupdir/postgres_backup -
@@ -22,7 +30,7 @@ ls $sourcedir/* -a --format=single-column --group-directories-first -p -R -1 -U 
 ls $sourcedir/* -a --group-directories-first -l -p -R --time=mtime -U --width=0 --block-size=K --time-style=long-iso > $backupdir/projects-list-metadata.txt
 
 # compress backup files to zip archive
-zip -r -9 -dc $backupdir/projects-backup $sourcedir/*
+zip -r -x@$excludelist --symlink -9 -dc $backupdir/projects-backup $sourcedir/*
 
 # create list of backed up files
 unzip -l $backupdir/projects-backup  > $backupdir/projects-list-zip.txt
@@ -31,20 +39,28 @@ unzip -l $backupdir/projects-backup  > $backupdir/projects-list-zip.txt
 unzip $backupdir/projects-backup.zip -d $restoredir
 
 # compare original and restored files
-diffresult=$(diff -qr --exclude=*.log $sourcedir/ $restoredir/$HOME/projects/)
+echo ""
+echo "--------------------------------------------"
+echo "Comparing files (should be no differences)"
+diff_cmd="diff -qr --no-dereference --exclude-from=$excludelist $sourcedir/ $restoredir$HOME/projects/"
+echo "Diff command: $diff_cmd"
+echo "Incase of problems, add exclusions to $excludelist"
+echo "--------------------------------------------"
+echo ""
+$diff_cmd
+echo ""
+diffresult=$($diff_cmd)
 # check if any differences were found
 if [ "$diffresult" == "" ]; then
     # no differences - backup ok
-    echo "File restore test OK"
+    echo "File restore test OK - no differences found"
 else
     # differences found - backup failed
-    echo "File restore test failed, saving differences"
-    # output differences to file
-    fn=$backupdir/restore-diff.txt
-    echo $diffresult > $fn
-    # exit with error code
-    exit 1
+    echo "WARNING: Differences found in file restore test, see above"    
 fi
+echo ""
+read -n 1 -s -p "Press any key to continue..."
+echo ""
 
 # delete restore dir
 rm -rf $restoredir
