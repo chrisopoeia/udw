@@ -38,17 +38,8 @@ unzip -l $backupdir/projects-backup  > $backupdir/projects-list-zip.txt
 # unzip backup to restore dir
 unzip $backupdir/projects-backup.zip -d $restoredir
 
+echo ""
 # compare original and restored files
-echo ""
-echo "--------------------------------------------"
-echo "Comparing files (should be no differences)"
-diff_cmd="diff -qr --no-dereference --exclude-from=$excludelist $sourcedir/ $restoredir$HOME/projects/"
-echo "Diff command: $diff_cmd"
-echo "Incase of problems, add exclusions to $excludelist"
-echo "--------------------------------------------"
-echo ""
-$diff_cmd
-echo ""
 diffresult=$($diff_cmd)
 # check if any differences were found
 if [ "$diffresult" == "" ]; then
@@ -56,10 +47,12 @@ if [ "$diffresult" == "" ]; then
     echo "File restore test OK - no differences found"
 else
     # differences found - backup failed
-    echo "WARNING: Differences found in file restore test, see above"    
+    echo "WARNING: Differences found in file restore test, see below"    
+    echo ""
+    echo $diffresult
+    echo ""
+    read -n 1 -s -p "Press any key to continue..."
 fi
-echo ""
-read -n 1 -s -p "Press any key to continue..."
 echo ""
 
 # delete restore dir
@@ -93,3 +86,7 @@ else
 fi
 
 df / -BG
+
+echo ""
+echo "Backup finished"
+echo ""
