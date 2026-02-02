@@ -22,22 +22,11 @@ $venv_py -m pip install --upgrade --require-virtualenv pip
 
 $venv_py -m pip install --upgrade --require-virtualenv -r resources/requirements.txt
 
+echo "------------------------------------"
 echo ""
-read -p "Install optional PyPI packages? [y,n]? " opt_pkg
-if [ "$opt_pkg" == "y" ] || [ "$opt_pkg" == "Y" ]; then
-    $venv_py -m pip install --upgrade --require-virtualenv -r resources/requirements-extra.txt
-fi
-
-echo ""
-read -p "Run pip_audit (will exit on error)? [y,n]? " audit
-if [ "$audit" == "y" ] || [ "$audit" == "Y" ]; then
-    $venv_py -m pip_audit
-else    
-    echo ""
-    echo "To run pip_audit later:" 
-    echo "    $venv_py -m pip_audit"
-    echo ""
-    read -n 1 -s -p "Press any key to continue..."
-fi
-
 echo "Finished creating venv: $venv_fn"
+echo ""
+echo "To run pip_audit: $venv_py -m pip_audit" 
+echo ""
+read -n 1 -s -p "Press any key to continue..."
+echo ""
