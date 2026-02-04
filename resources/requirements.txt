@@ -18,6 +18,8 @@ sphinx
 xsdata # https://xsdata.readthedocs.io/en/latest/
 xsdata-pydantic # https://xsdata-pydantic.readthedocs.io/en/latest/      
 
+pyarrow # required for df to/from parquet
+
 # build tools - in this order?
 build
 setuptools
