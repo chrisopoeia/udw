@@ -1,5 +1,35 @@
-# ubuntu-data-workstation
+# ubuntu-data-workstation (udw)
 
-sudo apt install git
+## Introduction
 
-git clone https://github.com/pydatk/ubuntu-data-workstation.git
+## Installation
+
+```
+$ sudo apt install git
+
+$ git clone https://github.com/chrisopoeia/ubuntu-data-workstation.git
+```
+
+## Modules
+
+### setup
+
+### project
+
+### backup
+
+### venv
+
+### postgres
+
+## Extras
+
+### dconf_diff
+
+```
+tools/dconf_diff.sh
+```
+
+Identify updated dconf keys/values after making changes to Ubuntu settings.
+
+If differences are found, use dconf Editor's search function to find the key(s).
