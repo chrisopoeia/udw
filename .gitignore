@@ -3,3 +3,10 @@
 quarto/_site/
 *.ini
 *.cfg
+links/
+
+# custom
+.vscode/
+quarto/_site/
+*.ini
+*.cfg
