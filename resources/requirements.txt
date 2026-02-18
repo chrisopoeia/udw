@@ -1,26 +1,6 @@
 # core packages
 ipykernel # IPython Kernel for Jupyter (minimum requirement for running Jupyter notebooks)
-matplotlib
 pandas
 pip-audit
 psycopg
 sqlalchemy
-
-# additional
-beautifulsoup4
-coverage
-datamodel-code-generator #https://pypi.org/project/datamodel-code-generator/
-faker
-lxml # required for pandas read_html
-jupyter # required in addition to ipykernel for extended Jupyter functionality e.g. running notebooks from command line
-openpyxl
-sphinx
-xsdata # https://xsdata.readthedocs.io/en/latest/
-xsdata-pydantic # https://xsdata-pydantic.readthedocs.io/en/latest/      
-
-pyarrow # required for df to/from parquet
-
-# build tools - in this order?
-build
-setuptools
-twine

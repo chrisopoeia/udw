@@ -20,6 +20,35 @@ $ git clone https://github.com/chrisopoeia/ubuntu-data-workstation.git
 
 ### venv
 
+####
+
+Additional packages:
+
+```
+# additional
+matplotlib
+pyarrow # required for df to/from parquet
+lxml # required for pandas read_html
+beautifulsoup4
+coverage
+datamodel-code-generator #https://pypi.org/project/datamodel-code-generator/
+faker
+jupyter # required in addition to ipykernel for extended Jupyter functionality e.g. running notebooks from command line
+openpyxl
+sphinx
+xsdata # https://xsdata.readthedocs.io/en/latest/
+xsdata-pydantic # https://xsdata-pydantic.readthedocs.io/en/latest/      
+
+$ ~/venvs/VENVNAME/bin/python -m pip install mkdocs-material
+$ ~/venvs/VENVNAME/bin/python -m pip install mkdocs-git-revision-date-localized-plugin
+$ ~/venvs/VENVNAME/bin/python -m pip install mkdocs-jupyter
+
+# build tools - in this order?
+build
+setuptools
+twine
+```
+
 ### postgres
 
 ## Extras
