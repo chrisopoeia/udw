@@ -85,7 +85,6 @@ if [ "$confirm" == "y" ] || [ "$confirm" == "Y" ]; then
     echo "quarto/_site/" >> /tmp/.gitignore
     echo "*.ini" >> /tmp/.gitignore
     echo "*.cfg" >> /tmp/.gitignore
-    echo "links/" >> /tmp/.gitignore
     echo "" >> /tmp/.gitignore
     cat $HOME/projects/$project_name/$repo_name/.gitignore >> /tmp/.gitignore
     mv /tmp/.gitignore ~/projects/$project_name/$repo_name/.gitignore
